@@ -1,0 +1,53 @@
+(fth PAR is
+sort Component .
+endfth)
+
+(fmod LISTS { X :: PAR } is
+protecting NAT .
+sort List{X} . *** sort estruturado
+op empty-list : -> List{X} [ctor] .
+op cons : X$Component List{X} ->List{X} [ctor] .
+op head`of_ : ~> X$Component .
+op tail`of_ : List{X} -> List{X} .
+op length`of_ : List{X} -> Nat .
+op is`empty-list_ : List{X} -> Bool .
+var c c’ : X$Component .
+var l : List{X} .
+eq head of cons (c, l) = c .
+eq tail of cons (c, l) = l .
+eq tail of empty-list = empty-list .
+eq length of empty-list = 0 .
+eq length of cons(c, l) = 1 + length of l .
+eq is empty-list empty-list = true .
+eq is empty-list cons (c, l) = false .
+endfm)
+
+
+(fmod ARRAYS {Y :: PAR} is
+protecting INT .
+sort Array {Y} . ***SorteEstruturado
+op unit-array: Y$Component -> Array{Y} [ctor].
+op _abutted`to_ : Array{Y} Array{Y} -> Array{Y} [assoc ctor].
+op componente_of_ : Int Array{Y} ~> Y$Component .
+op size`of_ : Array{Y} -> Int .
+var a : Array{Y} .
+var c : Y$Component .
+var i : Int .
+eq component 0 of unit-array (c) = c . (134)
+eq component 0 of unit-array (c) abutted to a = c . (135)
+ceq component i of unit-array (c) abutted to a = component (i – 1) of a
+ if i > 0 .
+(136)
+eq size of unit-array (c) = 1 . (137)
+eq size of (unit-array (c) abutted to a) = s(size of a). (138)
+endfm)
+
+
+(view Par-as-Double { X1 :: PAR , X2 :: PAR }
+from PAR to DOUBLES { X1 , X2 } is
+sort Component to Double { X1 , X2 } .
+endv)
+
+(fmod DOUBLES{LISTS{X::PAR}, ARRAYS{Y::PAR}}
+protecting LISTS{X}, ARRAYS{Y} .
+endfm)
